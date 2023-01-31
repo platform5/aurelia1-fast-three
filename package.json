@@ -12,11 +12,14 @@
     "@microsoft/fast-element": "^1.11.0",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.4.0",
-    "aurelia1-fast-adapter": "^1.1.0"
+    "aurelia1-fast-adapter": "^1.1.0",
+    "potree-core": "^2.0.3",
+    "three": "0.132.2"
   },
   "devDependencies": {
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.18",
+    "@types/three": "0.132.2",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
@@ -47,7 +50,7 @@
     "tree-kill": "^1.2.2",
     "ts-jest": "^29.0.3",
     "ts-loader": "^9.4.2",
-    "tslib": "^2.4.1",
+    "tslib": "^1.14.1",
     "typescript": "^4.9.4",
     "webpack": "^5.75.0",
     "webpack-bundle-analyzer": "^4.7.0",
