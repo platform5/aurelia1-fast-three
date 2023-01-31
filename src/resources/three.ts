@@ -53,6 +53,9 @@ export class Three {
   };
   
   public canvasOndblclick(event) {
+    console.log('camera',this.scene.camera.position);
+    console.log('controls',this.scene.controls.target);
+
 		const intesects = this.scene.raycaster.intersectObject(this.scene.scene, true);
 
 		if (intesects.length > 0)

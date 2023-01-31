@@ -118,7 +118,7 @@ export class Scene {
     }
 
     public setupCamera(): void {
-        this.camera.position.set(10, 10, 10);
-        this.controls.target.set(0, 0, 0);
+        this.camera.position.set(44, 17, 27);
+        this.controls.target.set(9, -4, -12);
     }
 }
