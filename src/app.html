@@ -1,6 +1,8 @@
 <template>
-  <h1>${message}</h1>
-  <fast-button slot="top-indicator" class="click" style="margin-left: 16px;" click.delegate="clic()" click.trigger="clic()">Clic</fast-button>
-
+  <require from="./app.css"></require>
+  <aurelia-three view-model.ref="three">
+    <!-- <fast-button slot="top-indicator" class="click" click.delegate="clic()" click.trigger="clic()">Load !</fast-button>
+    <fast-button slot="top-indicator" class="click" style="margin-left: 16px;" click.delegate="clear()" click.trigger="clear()">Clear</fast-button> -->
  
+  </aurelia-three>
 </template>
