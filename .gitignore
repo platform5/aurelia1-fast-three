@@ -35,3 +35,6 @@ node_modules
 /src/environment.ts
 /dist
 /test/coverage-jest
+config/environment.json
+config/environment.production.json
+config/environment.staging.json

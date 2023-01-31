@@ -8,20 +8,28 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@aurelia-ux/core": "^0.25.3",
+    "@aurelia-ux/input": "^0.25.3",
+    "@aurelia-ux/modal": "^0.25.3",
     "@microsoft/fast-components": "^2.30.6",
     "@microsoft/fast-element": "^1.11.0",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.4.0",
     "aurelia-fetch-client": "^1.8.2",
     "aurelia-i18n": "^4.0.3",
+    "aurelia-notify": "^0.8.1",
     "aurelia-store": "^2.0.1",
     "aurelia-validation": "^2.0.0-rc2",
     "aurelia1-fast-adapter": "^1.1.0",
+    "awesome-phonenumber": "^4.4.0",
+    "date-fns": "^2.29.3",
     "i18next-xhr-backend": "^3.2.2",
+    "jsqr": "^1.4.0",
     "moment": "^2.29.4",
     "potree-core": "^2.0.3",
     "rxjs": "^7.8.0",
-    "three": "0.132.2"
+    "three": "0.132.2",
+    "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@types/jest": "^29.2.4",
@@ -75,7 +83,12 @@
     "chokidar": "^3.0.0",
     "glob-stream": "^7.0.0",
     "glob-parent": "^6.0.0",
-    "micromatch": "^4.0.0"
+    "micromatch": "^4.0.0",
+    "tslib": "^2.3.0"
+  },
+  "browser": {
+    "http": false,
+    "https": false
   },
   "jest": {
     "testMatch": [
