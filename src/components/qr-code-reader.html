@@ -1,0 +1,19 @@
+<template >
+  <require from="./qr-code-reader.css"></require>
+  <div>
+    <div id="qr-error-message" class="section info-box warning"  if.bind="!hasVideoAccess">
+      <i class="material-icons icon">warning</i>
+      No access to video stream! (Please make shure that the camera is working)
+    </div>
+    <canvas class="qr-reader-canvas" id="qr-reader-canvas" if.bind="hasVideoAccess"></canvas>
+    <div id="qr-reader-output" if.bind="hasVideoAccess">
+      <span class="info-text" if.bind="qrValid">Found valid URL from QR code. <small>${codedata}</small></span>
+      <span class="info-text" else>No valid URL found.</span>
+      <p if.bind="false">
+        <fast-button appearance.bind="neutral" click.trigger="startQrReader()">
+          <span t="cmu.Activate QR scanning"></span>
+        </fast-button>
+      </p>
+    </div>
+  </div>
+</template>

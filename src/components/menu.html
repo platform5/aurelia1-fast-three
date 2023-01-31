@@ -1,0 +1,44 @@
+<template>
+  <require from="./menu.css"></require>
+  <fast-card separator fill-color="#f5f5f5" class="mobile-full-bleed menu" nocontain>
+    <fast-card-row style="padding-top: 4px; padding-bottom: 4px; background-color: #ffffff; text-align: right;">
+      <label  t="Menu"></label>
+      <fast-button style="padding: 0 4px 0 8px;" appearance="lightweight" neutral hover-fill dismiss-modal><span t="Close"></span><fast-icon icon="X" slot="end"></fast-icon>
+      </fast-button>
+    </fast-card-row>
+    <fast-content>
+      <fast-stack large>
+        <fast-menu style="width: 100%; max-width: none;" separated>
+          <fast-menu-item click.trigger="gotoRoute('qr')">
+            <fast-icon icon="Qrcode" slot="start"></fast-icon>
+            Read QR code
+            <fast-icon icon="ChevronRight" slot="end"></fast-icon>
+          </fast-menu-item>
+        </fast-menu>
+        <div>
+          <fast-stack small>
+            <p><label  t="profile.My Profile"></label></p>
+            <fast-menu style="width: 100%; max-width: none;" separated>
+              <fast-menu-item if.bind="global.hasUserRole || global.hasAdminRole" click.delegate="gotoRoute('manager')">
+                <fast-icon icon="Adjustments" slot="start"></fast-icon><span t="menu.QR Manager"></span>
+                <fast-icon icon="ChevronRight" slot="end"></fast-icon></fast-menu-item>
+              <fast-menu-item if.bind="global.state.swissdata.authenticated" click.trigger="gotoRoute('account', {na: 'main'}, true)">
+                <fast-icon icon="User" slot="start"></fast-icon>
+                <span t="profile.My Account"></span>
+                <fast-icon icon="ChevronRight" slot="end"></fast-icon>
+              </fast-menu-item>
+              <fast-menu-item if.bind="!global.state.swissdata.authenticated" click.trigger="gotoRoute('login')">
+                <fast-icon icon="User" slot="start"></fast-icon>
+                Se connecter
+                <fast-icon icon="ChevronRight" slot="end"></fast-icon>
+              </fast-menu-item>
+              <fast-menu-item if.bind="global.state.swissdata.authenticated" click.trigger="logout()">
+                <fast-icon icon="Logout" slot="start"></fast-icon><span t="Logout"></span>
+                <fast-icon icon="ChevronRight" slot="end"></fast-icon></fast-menu-item>
+            </fast-menu>
+          </fast-stack>
+        </div>
+      </fast-stack>
+    </fast-content>
+  </fast-card>
+</template>
