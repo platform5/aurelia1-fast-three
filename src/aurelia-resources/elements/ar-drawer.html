@@ -1,0 +1,18 @@
+<template class="${position} ${animate ? 'animate': ''} ${opened ? 'opened':'closed'} ${fullScreen ? 'full-screen':''}" css="z-index:${zIndex};">
+  <require from="./ar-drawer.css"></require>
+  
+  <ar-buttons-bar css="${showBar ? '':'display:none;'}">
+    <span class="bar-left">
+      <slot name="bar-left"></slot>
+    </span>
+    <span class="title">${title}</span>
+    <span class="bar-left">
+      <slot name="bar-right"></slot>
+    </span>
+  </ar-buttons-bar>
+  <ar-title-bar css="${showBar ? '':'display:none;'}">
+    <span class="title">${title}</span>
+  </ar-title-bar>
+  
+  <div class="${showBar ? 'ar-drawer-main-content' : ''}"><slot></slot></div>
+</template>

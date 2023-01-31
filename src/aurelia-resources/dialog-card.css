@@ -1,0 +1,34 @@
+.ux-modal__content > .ux-card > .ux-card__header,
+.ux-modal__content > compose > .ux-card > .ux-card__header {
+  flex-direction: row;
+  align-items: center;
+}
+
+.ux-modal__content > .ux-card > .ux-card__header ux-icon,
+.ux-modal__content > compose > .ux-card > .ux-card__header ux-icon {
+  color: var(--ux-swatch--grey-p500);
+}
+
+.ux-modal__content > .ux-card > .ux-card__header h1,
+.ux-modal__content > .ux-card > .ux-card__header h2,
+.ux-modal__content > .ux-card > .ux-card__header h3,
+.ux-modal__content > .ux-card > .ux-card__header h4,
+.ux-modal__content > .ux-card > .ux-card__header h5,
+.ux-modal__content > .ux-card > .ux-card__header h6,
+.ux-modal__content > .ux-card > .ux-card__header p,
+.ux-modal__content > compose > .ux-card > .ux-card__header h1,
+.ux-modal__content > compose > .ux-card > .ux-card__header h2,
+.ux-modal__content > compose > .ux-card > .ux-card__header h3,
+.ux-modal__content > compose > .ux-card > .ux-card__header h4,
+.ux-modal__content > compose > .ux-card > .ux-card__header h5,
+.ux-modal__content > compose > .ux-card > .ux-card__header h6,
+.ux-modal__content > compose > .ux-card > .ux-card__header p {
+  margin: 0 16px;
+}
+
+
+/* TMP: necessary because it seems the similiar CSS from @aurelia-ux modal component are not working / available */
+.ux-modal--desktop .ux-modal__content > .ux-card {
+  max-height: 90vh;
+  position: relative;
+}

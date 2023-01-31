@@ -1,0 +1,68 @@
+.ar-notification {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ar-notification__message {
+  /* padding: 4px 8px 4px 16px; */
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  border-radius: var(--aurelia-ux--ar-notification-border-radius, 5px);
+  box-shadow: var(--aurelia-ux--ar-notification-elevation, var(--aurelia-ux--design-elevation4dp));
+}
+
+.ar-notification__message.type-info {
+  background: var(--aurelia-ux--ar-notification-info-background, var(--aurelia-ux--design-app-background));
+  color: var(--aurelia-ux--ar-notification-info-foreground, var(--aurelia-ux--design-app-foreground));
+}
+.ar-notification__message.type-warning,
+.ar-notification__message.type-error {
+  background: var(--aurelia-ux--ar-notification-warning-background, var(--aurelia-ux--design-accent));
+  color: var(--aurelia-ux--ar-notification-warning-foreground, var(--aurelia-ux--design-accent-foreground));
+}
+.ar-notification__message.type-success {
+  background: var(--aurelia-ux--ar-notification-success-background, var(--ux-swatch--green-p300));
+  color: var(--aurelia-ux--ar-notification-success-foreground, var(--ux-swatch--white));
+}
+.ar-notification__message.type-danger {
+  background: var(--aurelia-ux--ar-notification-danger-background, var(--ux-swatch--red-p300));
+  color: var(--aurelia-ux--ar-notification-danger-foreground, var(--ux-swatch--white));
+}
+.ar-notification__message.type-primary {
+  background: var(--aurelia-ux--ar-notification-primary-background, var(--aurelia-ux--design-primary));
+  color: var(--aurelia-ux--ar-notification-primary-foreground, var(--aurelia-ux--design-primary-foreground));
+}
+.ar-notification__message.type-accent {
+  background: var(--aurelia-ux--ar-notification-accent-background, var(--aurelia-ux--design-accent));
+  color: var(--aurelia-ux--ar-notification-accent-foreground, var(--aurelia-ux--design-accent-foreground));
+}
+.ar-notification__message.type-action {
+  background: var(--aurelia-ux--ar-notification-action-background, var(--aurelia-ux--design-primary));
+  color: var(--aurelia-ux--ar-notification-action-foreground, var(--aurelia-ux--design-primary-foreground));
+}
+.ar-notification__message .ux-button--outline {
+  background: var(--aurelia-ux--ar-notification-action-foreground, var(--aurelia-ux--design-primary-foreground));
+  color: var(--aurelia-ux--ar-notification-action-background, var(--aurelia-ux--design-primary));
+}
+
+
+.ar-notification__message .ar-notification__close-button .ux-button--text {
+  min-width: auto;
+  margin-left: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: inherit;
+}
+.ar-notification__message .ar-notification__action-button {
+  margin-left: 16px;
+}

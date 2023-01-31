@@ -1,0 +1,409 @@
+body,
+button,
+input,
+optgroup,
+select,
+textarea {
+  -webkit-overflow-scrolling: touch;
+}
+
+ux-icon {
+  cursor: pointer;
+}
+
+.text-click {
+  color: var(--aurelia-ux--design-primary);
+  cursor: pointer;
+}
+
+/** BLOCK POSITIONNING **/
+.abs-full {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.fix-full {
+  display: block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.abs-toolbar-top {
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 50px;
+  right: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.abs-toolbar-bottom {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  right: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.abs-from-toolbar-top {
+  display: block;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.abs-to-toolbar-bottom {
+  display: block;
+  position: absolute;
+  height: 0;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.abs-topright {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.abs-bottomright {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+.abs-topleft {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+.abs-bottomleft {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+}
+
+.abs-right {
+  position: absolute;
+  right: 16px;
+}
+.abs-left {
+  position: absolute;
+  left: 16px;
+}
+
+.fix-topright {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+}
+.fix-bottomright {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}
+.fix-topleft {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+}
+.fix-bottomleft {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+}
+
+.vscroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.vscroll-canceld {
+  overflow-y: hidden;
+}
+
+.hscroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.vscroll-canceld {
+  overflow-x: hidden;
+}
+
+.minh100 {
+  min-height: 100%;
+}
+/** FLEX POSITIONNING **/
+.flex-center {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.flex-vcenter {
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+.flex-hcenter {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+.flex-justify-around {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  flex-direction: row;
+}
+
+/** COLORS AND TYPOGRAPHY **/
+.pf {
+  color: var(--aurelia-ux--design-primary);
+}
+
+.pb {
+  background-color: var(--aurelia-ux--design-primary);
+}
+
+.primary {
+  color: var(--aurelia-ux--design-primary-foreground);
+  background-color: var(--aurelia-ux--design-primary);
+}
+
+.af {
+  color: var(--aurelia-ux--design-accent);
+}
+
+.ab {
+  background-color: var(--aurelia-ux--design-accent);
+}
+
+.accent {
+  color: var(--aurelia-ux--design-accent-foreground);
+  background-color: var(--aurelia-ux--design-accent);
+}
+
+.alternate {
+  color: var(--ux-swatch--grey-p900);
+  background-color: var(--ux-swatch--grey-p200);
+}
+
+
+/** SECTIONS **/
+section {
+  padding: 40px 20px;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+section > h1:first-child {
+  margin-top: 0;
+}
+
+/** SMALL ELEMENTS AND HELPERS **/
+.center {
+  text-align: center;
+}
+.center .ux-list-item__content {
+  text-align: left;
+}
+
+.margin-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.click {
+  cursor: pointer;
+}
+
+strong,
+.strong {
+  font-weight: bold;
+}
+
+small,
+.small {
+  font-size: 80%;
+}
+
+.muted {
+  font-size: 80%;
+  color: var(--ux-swatch--grey-p500);
+}
+
+.maxtext {
+  max-width: 600px;
+}
+
+.center .maxtext,
+.maxtext.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.left .maxtext,
+.maxtext.left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.right .maxtext,
+.maxtext.right {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/** BUTTONS **/
+.button-row__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+.button-row__two--small-left {
+  grid-template-columns: auto 1fr;
+}
+.button-row__two--small-right {
+  grid-template-columns: 1fr auto;
+}
+
+/** UX CARDS IN LIST **/
+
+.cards-list ux-card {
+  margin-bottom: 10px;
+}
+
+.cards-list ux-card.focused {
+  box-shadow: var(--aurelia-ux--design-elevation-focus);
+}
+
+.cards-list ux-card-header {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cards-list ux-card-header > * {
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-list ux-card-header > .icon {
+  flex-grow: 0;
+  min-width: auto;
+  text-align: center;
+  display: flex;
+  margin-right: 10px;
+}
+
+.cards-list ux-card-header > .action {
+  flex-grow: 0;
+  min-width: auto;
+  text-align: right;
+}
+
+/** UTILITIES **/
+
+img.circle {
+  border-radius: 50%;
+}
+
+/** for MD screens **/
+@media (min-width: 960px) {
+  section {
+    padding: 40px;
+  }
+}
+
+/** for LG screens **/
+@media (min-width: 1280px) {
+  section {
+    padding: 40px 80px;
+  }
+}
+
+/** MOZILLA RED border around input fix **/
+:not(output):-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/* Aurelia UX fixes or improvements */
+
+/* Add .ux-button--icon utility class for using ux-button type=text around ux-icon */
+.ux-button--icon {
+  align-items: center;
+  display: inline-flex;
+}
+.ux-button--icon .ux-button--text {
+  min-width: auto;
+  padding: 8;
+  width: 42px;
+  height: 42px;
+}
+.ux-input-component--outline {
+  /* without this fix, the disabled color in outline component is too light */
+  --aurelia-ux--design-disabled-background: var(--ux-swatch--grey-p400);
+}
+/* ux-card-separator should have a 0 margin at the top (not auto) */
+.ux-card__separator--no-margin {
+  margin: 0px auto 0px auto!important;
+}
+
+/* Content can wrap in list content */
+.ux-list-item__content {
+	white-space: initial;
+	width: 100%;
+}
+/* Add a drop shadow to all dialog */
+.ux-modal-content {
+  box-shadow: var(--aurelia-ux--design-elevation4dp)
+}
+
+/* Dialog box in desktop do not take full width */
+.ux-modal--desktop .ux-modal__content > .ux-card, 
+.ux-modal--desktop > compose > .ux-modal__content > .ux-card {
+  max-width: 90vw;
+}
+.ux-modal--desktop .ux-modal__content {
+  max-width: 90vw;
+  max-height: 90vh;
+}

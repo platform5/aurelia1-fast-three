@@ -1,0 +1,10 @@
+<template>
+  <require from="./ar-notification.css"></require>
+  <div class="ar-notification">
+    <div class="ar-notification__message type-${level}">
+      ${notification}
+      <ux-button class="ar-notification__action-button" type="outline" if.bind="data.actionLabel && data.actionCallback" click.delegate="doAction()">${data.actionLabel}</ux-button>
+      <ux-button class="ar-notification__close-button" type="text"><ux-icon icon="clear" click.trigger="controller.close()"></ux-icon></ux-button>
+    </div>
+  </div>
+</template>

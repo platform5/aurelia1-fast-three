@@ -1,0 +1,232 @@
+ar-drawer {
+  position: fixed;
+  background: var(--aurelia-ux--ar-drawer-background, var(--aurelia-ux--design-app-background));
+  color: var(--aurelia-ux--ar-drawer-foreground, var(--aurelia-ux--design-app-foreground));
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+ar-drawer.bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+ar-drawer.top {
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+ar-drawer.left {
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+ar-drawer.right {
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+ar-drawer.left,
+ar-drawer.right {
+  width: var(--aurelia-ux--ar-drawer-xs-size, 100%);
+}
+ar-drawer.top,
+ar-drawer.bottom {
+  height: var(--aurelia-ux--ar-drawer-xs-size, 100%);
+}
+
+@media (min-width: 480px) {
+  ar-drawer.left,
+  ar-drawer.right {
+    width: var(--aurelia-ux--ar-drawer-sm-size, 300px);
+  }
+  ar-drawer.top,
+  ar-drawer.bottom {
+    height: var(--aurelia-ux--ar-drawer-sm-size, 300px);
+  }
+}
+
+@media (min-width: 960px) {
+  ar-drawer.left,
+  ar-drawer.right {
+    width: var(--aurelia-ux--ar-drawer-md-size, 300px);
+  }
+  ar-drawer.top,
+  ar-drawer.bottom {
+    height: var(--aurelia-ux--ar-drawer-md-size, 300px);
+  }
+}
+
+@media (min-width: 1280px) {
+  ar-drawer.left,
+  ar-drawer.right {
+    width: var(--aurelia-ux--ar-drawer-lg-size, 300px);
+  }
+  ar-drawer.top,
+  ar-drawer.bottom {
+    height: var(--aurelia-ux--ar-drawer-lg-size, 300px);
+  }
+}
+
+@media (min-width: 1925px) {
+  ar-drawer.left,
+  ar-drawer.right {
+    width: var(--aurelia-ux--ar-drawer-xl-size, 300px);
+  }
+  ar-drawer.top,
+  ar-drawer.bottom {
+    height: var(--aurelia-ux--ar-drawer-xl-size, 300px);
+  }
+}
+
+ar-drawer.left.full-screen,
+ar-drawer.top.full-screen,
+ar-drawer.right.full-screen,
+ar-drawer.bottom.full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+ar-drawer.animate {
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -ms-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+}
+ar-drawer.opened {
+  opacity: 1;
+  -webkit-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0)
+}
+
+ar-drawer.closed {
+  opacity: 0;
+  -webkit-transform: translate3d(-100%, 0, 0);
+  -ms-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0)
+}
+
+ar-drawer.left.closed {
+  -webkit-transform: translate3d(-100%, 0, 0);
+  -ms-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0)
+}
+
+ar-drawer.right.closed {
+  -webkit-transform: translate3d(100%, 0, 0);
+  -ms-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0)
+}
+
+ar-drawer.top.closed {
+  -webkit-transform: translate3d(0, -100%, 0);
+  -ms-transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -100%, 0)
+}
+
+ar-drawer.bottom.closed {
+  -webkit-transform: translate3d(0, 100%, 0);
+  -ms-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0)
+}
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--aurelia-ux--ar-drawer-z-index, 29);
+  background: rgba(0, 0, 0, 0.5);
+}
+.drawer-overlay.animate {
+  opacity: 0;
+  -webkit-transition: opacity 500ms ease-in-out;
+  -moz-transition: opacity 500ms ease-in-out;
+  -ms-transition: opacity 500ms ease-in-out;
+  -o-transition: opacity 500ms ease-in-out;
+  transition: opacity 500ms ease-in-out;
+}
+.drawer-overlay.animate.visible {
+  opacity: 1;
+}
+
+.vscroll-canceled-by-drawer-overlay {
+  overflow-y: hidden!important;
+}
+.hscroll-canceled-by-drawer-overlay {
+  overflow-x: hidden!important;
+}
+
+ar-drawer ar-buttons-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  padding: 16px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--aurelia-ux--design-elevation24dp);
+  z-index:1;
+}
+ar-drawer ar-buttons-bar > span.title,
+ar-drawer ar-title-bar > span.title {
+  color: var(--ux-design--primary);
+}
+ar-drawer ar-buttons-bar > span.title {
+  display: none;
+}
+
+ar-drawer ar-title-bar {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  padding: 16px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--aurelia-ux--design-elevation4dp);
+  z-index:1;
+}
+ar-drawer .ar-drawer-main-content {
+  display: block;
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media (min-width: 660px) {
+  ar-drawer ar-title-bar {
+    display: none;
+  }
+  ar-drawer ar-buttons-bar {
+    top: 0;
+    bottom: auto;
+    box-shadow: var(--aurelia-ux--design-elevation4dp);
+  }
+  ar-drawer ar-buttons-bar > span.title {
+    display: inline;
+  }
+  ar-drawer .ar-drawer-main-content {
+    bottom: 0;
+  }
+}

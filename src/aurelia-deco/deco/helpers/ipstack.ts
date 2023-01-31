@@ -1,5 +1,5 @@
 import { AureliaSwissdataConfig } from './../../index';
-import * as http from 'http';
+import http from 'http';
 import { Container } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
