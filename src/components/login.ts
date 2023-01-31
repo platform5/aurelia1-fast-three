@@ -4,7 +4,7 @@ import { inject, BindingEngine, bindable } from 'aurelia-framework'
 import { Global } from 'global';
 import { getLogger } from 'aurelia-logging';
 import { Subscription } from 'aurelia-event-aggregator';
-import PhoneNumber from 'awesome-phonenumber';
+import {parsePhoneNumber, getNumberFrom,getExample,	getCountryCodeForRegionCode, getRegionCodeForCountryCode, getSupportedCallingCodes, getSupportedRegionCodes, getAsYouType,} from 'awesome-phonenumber'
 import { errorify, notify } from 'aurelia-resources';
 import { SdLogin } from 'aurelia-deco';
 import settings from '../settings';
@@ -156,18 +156,18 @@ export class Login {
   }
 
   public async countryChanged(): Promise<void> {
-    this.countryCode = PhoneNumber.getCountryCodeForRegionCode(this.regionCode);
-    this.mobilePlaceholder = PhoneNumber.getExample(this.regionCode).getNumber('national');
+    this.countryCode = getCountryCodeForRegionCode(this.regionCode);
+    this.mobilePlaceholder = getExample(this.regionCode, 'mobile').number.e164;
     this.mobileChanged();
     await this.global.store.dispatch('setCountry', this.regionCode.toUpperCase());
   }
 
   public countryCodeNumber(regionCode: string): number {
-    return PhoneNumber.getCountryCodeForRegionCode(regionCode);
+    return getCountryCodeForRegionCode(regionCode);
   }
 
   public mobileChanged(): void {
-    this.isMobileValid = new PhoneNumber(this.mobile, this.regionCode).isValid();
+    this.isMobileValid = parsePhoneNumber(this.mobile, { regionCode: this.regionCode } ).valid;
   }
 
   public emailChanged(): void {
@@ -217,7 +217,7 @@ export class Login {
       return;
     }
 
-    const username = this.loginWith === 'mobile' ? new PhoneNumber(this.mobile, this.regionCode)?.getNumber() : this.email;
+    const username = this.loginWith === 'mobile' ? parsePhoneNumber(this.mobile, { regionCode: this.regionCode } ).number.e164 : this.email;
     this.loading = true;
     try {
       const exists = await this.sdLogin.checkIfUsernameExists(username);
@@ -291,7 +291,7 @@ export class Login {
       return;
     }
 
-    const username = this.loginWith === 'mobile' ? new PhoneNumber(this.mobile, this.regionCode)?.getNumber() : this.email;
+    const username = this.loginWith === 'mobile' ? parsePhoneNumber(this.mobile, { regionCode: this.regionCode } ).number.e164 : this.email;
     this.loading = true;
     try {
       this.sdLogin.passwordStrengthRequired = 'weak';
@@ -339,7 +339,7 @@ export class Login {
       
       if (this.password) {
         // if the user did not refresh, we have the password in memory and can login
-        const username = this.loginWith === 'mobile' ? new PhoneNumber(this.mobile, this.regionCode)?.getNumber() : this.email;
+        const username = this.loginWith === 'mobile' ? parsePhoneNumber(this.mobile, { regionCode: this.regionCode } ).number.e164 : this.email;
         await this.sdLogin.login(username, this.password);
         setTimeout(() => {
           this.afterLogin();
@@ -371,7 +371,7 @@ export class Login {
 
     this.loading = true;
     try {
-      const username = this.loginWith === 'mobile' ? new PhoneNumber(this.mobile, this.regionCode)?.getNumber() : this.email;
+      const username = this.loginWith === 'mobile' ? parsePhoneNumber(this.mobile, { regionCode: this.regionCode } ).number.e164 : this.email;
       await this.sdLogin.login(username, this.password);
       this.afterLogin();
     } catch  (error) {
@@ -388,7 +388,7 @@ export class Login {
 
     this.loading = true;
     try {
-      const username = this.loginWith === 'mobile' ? new PhoneNumber(this.mobile, this.regionCode)?.getNumber() : this.email;
+      const username = this.loginWith === 'mobile' ? parsePhoneNumber(this.mobile, { regionCode: this.regionCode } ).number.e164 : this.email;
       await this.sdLogin.requestResetPassword(username);
       this.nextElement.goToId('reset-password');
       setTimeout(() => {
@@ -505,7 +505,7 @@ export class Login {
     if (this.loginWith === 'email' && isEmail(this.createAccountMemory.username)) {
       this.email = this.createAccountMemory.username;
       this.emailChanged();
-    } else if (this.loginWith === 'mobile' && new PhoneNumber(this.mobile, this.regionCode)?.isValid()) {
+    } else if (this.loginWith === 'mobile' && parsePhoneNumber(this.mobile, { regionCode: this.regionCode } ).valid) {
       this.mobile === this.createAccountMemory.username;
       this.mobileChanged();
     } else {

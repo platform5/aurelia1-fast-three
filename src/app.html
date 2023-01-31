@@ -1,8 +1,39 @@
 <template>
+  <require from="./aurelia-resources/animate.css"></require>
+  <require from="./aurelia-resources/basics.css"></require>
+  <require from="./aurelia-resources/dialog-card.css"></require>
+  <require from="./typography.css"></require>
+  <require from="./base/app-base.css"></require>
   <require from="./app.css"></require>
-  <aurelia-three view-model.ref="three">
-    <!-- <fast-button slot="top-indicator" class="click" click.delegate="clic()" click.trigger="clic()">Load !</fast-button>
-    <fast-button slot="top-indicator" class="click" style="margin-left: 16px;" click.delegate="clear()" click.trigger="clear()">Clear</fast-button> -->
- 
-  </aurelia-three>
+  <require from="./base/dark-base.css"></require>
+  <require from="./dark.css"></require>
+  <require from="./utilities.css"></require>
+
+  <noie></noie>
+  <div class="notify-top-host"></div>
+  <div class="notify-bottom-host"></div>
+
+  <div class="requesting-indicator" if.bind="global.swissdataApi.http.isRequesting & debounce:150">
+    <ar-spinner-line height="3px" active.bind="true"></ar-spinner-line>
+  </div>
+
+  <!-- Smart toolbar displayed in all application, on top of router view -->
+  <ar-smart-toolbar class="abs-toolbar-top" style="background: white; z-index: 2;">
+    <!-- Left part of the toolbar -->
+    <fast-button icon slot="left" appearance="lightweight" click.trigger="openMenu()">
+      <fast-icon icon="Menu"></fast-icon>
+    </fast-button>
+    
+    <!-- Center part of the toolbar -->
+    <!-- <span slot="center" class="click" click.delegate="global.navigateToRoute('home')"><img src="/images/logo-ge.svg" alt="UNIGE" height="45px"></span> -->
+    <fast-button icon slot="right" appearance="lightweight" click.trigger="global.navigateToRoute('account')">
+      <fast-icon icon="User"></fast-icon>
+    </fast-button>
+  </ar-smart-toolbar>
+
+
+  <div class="abs-from-toolbar-top vscroll" if.bind="global.ready" click.delegate="transferClick($event)">
+    <router-view></router-view>
+  </div>
+
 </template>

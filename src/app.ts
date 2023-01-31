@@ -1,97 +1,183 @@
-import { inject, BindingEngine, bindable } from 'aurelia-framework';
-import { Three } from './resources';
+import { Global } from './global';
+import { inject } from 'aurelia-framework';
+import { Router, RouterConfiguration } from 'aurelia-router';
+import { ArDrawer, addNotifyContainerAlias, setNotifyDefaults } from './aurelia-resources';
+import { DynamicDataModel } from 'aurelia-deco';
+import routes from './routes';
+import settings from './settings';
+import { AuthorizeStep } from 'aurelia-deco';
+import { BaseApp } from 'base/base-app';
+import { UxModalService } from '@aurelia-ux/modal';
+// import * as FastClick from 'fastclick';
+import { StyleEngine } from '@aurelia-ux/core';
+import { UxInputTheme } from '@aurelia-ux/input';
+import { AureliaFastIconLoader } from './fast-icons';
+import { accentPalette, baseLayerLuminance, fillColor, controlCornerRadius, SwatchRGB, PaletteRGB, typeRampBaseFontSize } from '@microsoft/fast-components';
+import { parseColor } from '@microsoft/fast-colors';
+import { Menu } from './components/menu';
 
-// Potree
-import { AmbientLight, Box3, BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Raycaster, Scene, SphereGeometry, Vector2, Vector3, WebGLRenderer } from 'three';
-import { PointCloudOctree, PointSizeType, Potree } from 'potree-core';
+@inject(Global, Router, StyleEngine, UxModalService, AureliaFastIconLoader)
+export class App extends BaseApp {
 
-
-@inject(Element, BindingEngine)
-export class App {
-
-  public three: Three;
-  public potree = new Potree();
-	public pointClouds: PointCloudOctree[] = [];
+  menuDrawer: ArDrawer;
+  bottomDrawerExempleDrawer: ArDrawer;
   
-  private cube: Mesh;
+  public toolbarTopOpened: boolean = false;
 
-  constructor(private element: Element, private bindingEngine: BindingEngine) {
-  }
+  private handleResize: EventListener;
 
-  public async attached(): Promise<void> {
-      await new Promise(resolve => setTimeout(resolve, 800));
-      this.clic();
-  }
-
-  private async clic(): Promise<void> {
-
-    console.log('Load');
-    const geometry = new BoxGeometry(35, 0.1, 35);
-    const material = new MeshBasicMaterial({ color: 0x663300 });
-    this.cube = new Mesh(geometry, material);
-    this.cube.position.x = 15;
-    this.cube.position.y = -0.9;
-    this.three.scene.scene.add(this.cube);
-  
-
-    
-    await this.loadPointCloud('https://pointclouds.swissdata.io/sextant/villa-sextant/', 'cloud.js', new Vector3(8, -3, 0.0));
-    this.potree.pointBudget = 5_000_000;
-    this.loop();
-  }
-
-  
-  private async loadPointCloud(baseUrl: string, url: string, position: Vector3)
-	{
-			const loadPotree = this.potree.loadPointCloud(url, url => `${baseUrl}${url}`,).then((pointcloud: PointCloudOctree) => {
-				pointcloud.material.size = 1.0;
-				pointcloud.material.shape = 2;
-				pointcloud.material.inputColorEncoding = 1;
-				pointcloud.material.outputColorEncoding = 1;
-        // pointcloud.boundingBox = new Box3(new Vector3(0,0,0), new Vector3(1,1,1));
-        pointcloud.castShadow = true;
-        pointcloud.pointSizeType = PointSizeType.ADAPTIVE;
-        // pointcloud.updateBoundingBoxes();
-        // pointcloud.material.pointOpacityType = 0.5;
-				// pointcloud.position.set(0, -2, 1)
-				// pointcloud.scale.set(0.1, 0.1, 0.1);
-				pointcloud.rotateOnAxis(new Vector3(-1,0,0), Math.PI/2);
-				if (position)
-				{
-					pointcloud.position.copy(position);
-				}
-
-        this.add(pointcloud);
-
-			});
-
-      console.log('potree', loadPotree);
-	}
-
-  public add(pco: PointCloudOctree) {
-		this.three.scene.scene.add(pco);
-		this.pointClouds.push(pco);
-	}
-
-  private clear(): void {
-
-    console.log('Clear');
-    this.three.scene.scene.clear();
-
-  }
-
-  
-
-  private loop(): void {
-		// this.cube.rotation.y += 0.01;
-
-		this.potree.updatePointClouds(this.pointClouds, this.three.scene.camera, this.three.scene.renderer);
-    this.three.scene.controls.update();
-    this.three.scene.renderer.render( this.three.scene.scene,  this.three.scene.camera);
-
-    window.requestAnimationFrame(()=>{
-      this.loop()
+  constructor(private global: Global, private router: Router, private styleEngine: StyleEngine, private modalService: UxModalService, public iconLoader: AureliaFastIconLoader) {
+    super();
+    this.handleResize = e => {
+    };
+    addNotifyContainerAlias('top', '.notify-top-host');
+    addNotifyContainerAlias('bottom', '.notify-bottom-host');
+    setNotifyDefaults({
+      containerSelector: '.notify-top-host'
     });
-	}
+    const inputTheme: UxInputTheme = {
+      themeKey: "input",
+      borderRadius: '0px'
+    };
+    this.styleEngine.applyTheme(inputTheme, document.body);
+    document.documentElement.style.setProperty('--three-canvas-background', settings.three.canvasBackground);
+    this.initIcons();
+  }
+
+  public attached() {
+    this.handleResize(null);
+    window.addEventListener('resize', this.handleResize);
+    // (FastClick as any).attach(document.body);
+
+    baseLayerLuminance.withDefault(settings.fast.designTokens.baseLayerLuminance);
+    typeRampBaseFontSize.withDefault('16px');
+    // lineHeightRatio.withDefault(1.5);
+
+    const fill = parseColor(settings.fast.designTokens.fillColor);
+    fillColor.withDefault(SwatchRGB.create(fill.r, fill.g, fill.b));
+
+    const base = parseColor(settings.fast.designTokens.accentPalette);
+    const swatch = SwatchRGB.create(base.r, base.g, base.b);
+    accentPalette.withDefault(PaletteRGB.create(swatch));
+    controlCornerRadius.withDefault(settings.fast.designTokens.controlCornerRadius);
+
+  }
+
+  public detached() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  configureRouter(config: RouterConfiguration) {
+    AuthorizeStep.redirectUnauthenticatedTo = settings.defaultRoutes.unauthenticated;
+    if (!(window as any).cordova) config.options.pushState = true;
+    config.addAuthorizeStep(AuthorizeStep);
+    config.map(routes);
+  }
+
+  public openMenu() {
+    this.modalService.open({
+      viewModel: Menu,
+//      host: 'ecos-design-system-provider',
+      position: 'left',
+      openingCallback: ((contentWrapperElement, overlayElement) => {
+        const contentElement = contentWrapperElement.querySelector('.ux-modal__content');
+        if (contentElement instanceof HTMLElement) {
+          contentElement.style.maxHeight = 'none';
+        }
+      })
+    });
+  }
+
+  public transferClick(event: MouseEvent) {
+    const firstPath = event.composedPath()[0];
+    if (firstPath instanceof HTMLElement) {
+      if (!firstPath.classList.contains('abs-from-toolbar-top')) {
+        return true;
+      }
+    }
+    const element = event.target;
+    if (element instanceof HTMLElement) {
+      const left = element.scrollLeft;
+      const top = element.scrollTop;
+  
+      //hide the overlay for now so the document can find the underlying elements
+      element.style.display = 'none';
+      //use the current scroll position to deduct from the click position
+      const elementUnderneath = document.elementFromPoint(event.pageX - left, event.pageY - top);
+      if (elementUnderneath instanceof Element && elementUnderneath.closest('.abs-toolbar-top')) {
+        // elementUnderneath.dispatchEvent(event);
+        const event = new CustomEvent('click', {bubbles: true});
+        elementUnderneath.dispatchEvent(event);
+      }
+      //show the overlay again
+      element.style.display = 'block';
+    }
+    return true;
+  }
+
+  private async initIcons(): Promise<void> {
+    
+    this.iconLoader.load('Adjustments', import('./icons/outline/Adjustments'), import('./icons/solid/Adjustments'));
+    // this.iconLoader.load('ArrowCircleRight', import('./icons/outline/ArrowCircleRight'), import('./icons/solid/ArrowCircleRight'));
+    // this.iconLoader.load('ArrowNarrowLeft', import('./icons/outline/ArrowNarrowLeft'), import('./icons/solid/ArrowNarrowLeft'));
+    // this.iconLoader.load('ArrowNarrowRight', import('./icons/outline/ArrowNarrowRight'), import('./icons/solid/ArrowNarrowRight'));
+    // this.iconLoader.load('ArrowsCondense', import('./icons/custom/arrowsCondense'), import('./icons/custom/arrowsCondense'));
+    // this.iconLoader.load('ArrowsExpand', import('./icons/outline/ArrowsExpand'), import('./icons/solid/ArrowsExpand'));
+    this.iconLoader.load('AtSymbol', import('./icons/outline/AtSymbol'), import('./icons/solid/AtSymbol'));
+    // this.iconLoader.load('Ban', import('./icons/outline/Ban'), import('./icons/solid/Ban'));
+    // this.iconLoader.load('Calendar', import('./icons/outline/Calendar'), import('./icons/solid/Calendar'));
+    this.iconLoader.load('Check', import('./icons/outline/Check'), import('./icons/solid/Check'));
+    // this.iconLoader.load('ChevronDown', import('./icons/outline/ChevronDown'), import('./icons/solid/ChevronDown'));
+    this.iconLoader.load('ChevronLeft', import('./icons/outline/ChevronLeft'), import('./icons/solid/ChevronLeft'));
+    this.iconLoader.load('ChevronRight', import('./icons/outline/ChevronRight'), import('./icons/solid/ChevronRight'));
+    // this.iconLoader.load('ChevronUp', import('./icons/outline/ChevronUp'), import('./icons/solid/ChevronUp'));
+    // this.iconLoader.load('CloudDownload', import('./icons/outline/CloudDownload'), import('./icons/solid/CloudDownload'));
+    // this.iconLoader.load('cog', import('./icons/outline/Cog'), import('./icons/solid/Cog'));
+    // this.iconLoader.load('Cog', import('./icons/outline/Cog'), import('./icons/solid/Cog'));
+    // this.iconLoader.load('ColorSwatch', import('./icons/outline/ColorSwatch'), import('./icons/solid/ColorSwatch'));
+    // this.iconLoader.load('CubeTransparent', import('./icons/outline/CubeTransparent'), import('./icons/solid/CubeTransparent'));
+    this.iconLoader.load('CursorClick', import('./icons/outline/CursorClick'), import('./icons/solid/CursorClick'));
+    // this.iconLoader.load('DotsCircleHorizontal', import('./icons/outline/DotsCircleHorizontal'), import('./icons/solid/DotsCircleHorizontal'));
+    // this.iconLoader.load('DotsHorizontal', import('./icons/outline/DotsHorizontal'), import('./icons/solid/DotsHorizontal'));
+    // this.iconLoader.load('Download', import('./icons/outline/Download'), import('./icons/solid/Download'));
+    // this.iconLoader.load('Eye', import('./icons/outline/Eye'), import('./icons/solid/Eye'));
+    // this.iconLoader.load('Filter', import('./icons/outline/Filter'), import('./icons/solid/Filter'));
+    // this.iconLoader.load('Flag', import('./icons/outline/Flag'), import('./icons/solid/Flag'));
+    // this.iconLoader.load('Folder', import('./icons/outline/Folder'), import('./icons/solid/Folder'));
+    // this.iconLoader.load('FolderOpen', import('./icons/outline/FolderOpen'), import('./icons/solid/FolderOpen'));
+    // this.iconLoader.load('Home', import('./icons/outline/Home'), import('./icons/solid/Home'));
+    // this.iconLoader.load('InformationCircle', import('./icons/outline/InformationCircle'), import('./icons/solid/InformationCircle'));
+    // this.iconLoader.load('LocationMarker', import('./icons/outline/LocationMarker'), import('./icons/solid/LocationMarker'));
+    this.iconLoader.load('Logout', import('./icons/outline/Logout'), import('./icons/solid/Logout'));
+    this.iconLoader.load('Menu', import('./icons/outline/Menu'), import('./icons/solid/Menu'));
+    // this.iconLoader.load('MenuAlt4', import('./icons/outline/MenuAlt4'), import('./icons/solid/MenuAlt4'));
+    // this.iconLoader.load('Minus', import('./icons/outline/Minus'), import('./icons/solid/Minus'));
+    // this.iconLoader.load('Pause', import('./icons/outline/Pause'), import('./icons/solid/Pause'));
+    // this.iconLoader.load('Pencil', import('./icons/outline/Pencil'), import('./icons/solid/Pencil'));
+    // this.iconLoader.load('Play', import('./icons/outline/Play'), import('./icons/solid/Play'));
+    // this.iconLoader.load('Plus', import('./icons/outline/Plus'), import('./icons/solid/Plus'));
+    this.iconLoader.load('Qrcode', import('./icons/outline/Qrcode'), import('./icons/solid/Qrcode'));
+    // this.iconLoader.load('Scissors', import('./icons/outline/Scissors'), import('./icons/solid/Scissors'));
+    // this.iconLoader.load('Search', import('./icons/outline/Search'), import('./icons/solid/Search'));
+    // this.iconLoader.load('Selector', import('./icons/outline/Selector'), import('./icons/solid/Selector'));
+    // this.iconLoader.load('Sparkles', import('./icons/outline/Sparkles'), import('./icons/solid/Sparkles'));
+    // this.iconLoader.load('Trash', import('./icons/outline/Trash'), import('./icons/solid/Trash'));
+    this.iconLoader.load('User', import('./icons/outline/User'), import('./icons/solid/User'));
+    // this.iconLoader.load('UserGroup', import('./icons/outline/UserGroup'), import('./icons/solid/UserGroup'));
+    // this.iconLoader.load('VideoCamera', import('./icons/outline/VideoCamera'), import('./icons/solid/VideoCamera'));
+    // this.iconLoader.load('Walking', import('./icons/custom/walking'), import('./icons/custom/walking'));
+    this.iconLoader.load('X', import('./icons/outline/X'), import('./icons/solid/X'));
+  }
 
 }
+
+export class Link extends DynamicDataModel {
+  id: string;
+  urlId: string;
+  urlTarget: string;
+  urlType: 'occurrences'|'rooms'|'items'|'systems'|'other' | undefined;
+  name?: string;
+  buildingName?: string;
+  roomNb?: string;
+}
+

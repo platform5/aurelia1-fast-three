@@ -1,3 +1,4 @@
+const settings = require('./src/settings').default;
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -14,6 +15,10 @@ const when = (condition, config, negativeConfig) =>
   condition ? ensureArray(config) : ensureArray(negativeConfig);
 
 // primary config:
+const title = settings.title;
+const description = settings.description;
+const keywords = settings.keywords;
+const author = settings.author;
 const outDir = path.resolve(__dirname, project.platform.output);
 const srcDir = path.resolve(__dirname, 'src');
 const baseUrl = '/';
@@ -227,7 +232,7 @@ module.exports = ({ production }, { analyze, hmr, port, host }) => ({
       template: 'index.ejs',
       metadata: {
         // available in index.ejs //
-        baseUrl
+        title, description, keywords, author, baseUrl
       }
     }),
     // ref: https://webpack.js.org/plugins/mini-css-extract-plugin/
