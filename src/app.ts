@@ -4,6 +4,8 @@ import { Three } from './resources';
 // Potree
 import { AmbientLight, Box3, BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Raycaster, Scene, SphereGeometry, Vector2, Vector3, WebGLRenderer } from 'three';
 import { PointCloudOctree, PointSizeType, Potree } from 'potree-core';
+import ObjectLoader from '@speckle/objectloader';
+
 
 
 @inject(Element, BindingEngine)
@@ -37,10 +39,43 @@ export class App {
     
     await this.loadPointCloud('https://pointclouds.swissdata.io/sextant/villa-sextant/', 'cloud.js', new Vector3(8, -3, 0.0));
     this.potree.pointBudget = 5_000_000;
+
+    // // http://localhost:3000/streams/2274fa6a58/commits/0c9832410b
+    // let loader = new ObjectLoader({
+    //   serverUrl: 'http://localhost:3000',
+    //   streamId: '2274fa6a58',
+    //   objectId: '85f633f5b4a18b42582620b70926a37f',
+    //   options: {
+    //     fullyTraverseArrays: false, // Default: false. By default, if an array starts with a primitive type, it will not be traversed. Set it to true if you want to capture scenarios in which lists can have intersped objects and primitives, e.g. [ 1, 2, "a", { important object } ]
+    //     excludeProps: ['displayValue', 'displayMesh', '__closure'] // Default: []. Any prop names that you pass in here will be ignored from object construction traversal.
+    //   }
+    // })
+    // let obj = await loader.getAndConstructObject((e) => console.log('Progress', e))
+    // console.log('Speckle Obj', obj);
+
+    let objs = await this.load({serverUrl:'http://localhost:3000',token: '6fb77ca894051374f7c5d95ec466e42363727436eb', streamId:'2274fa6a58',objectId:'85f633f5b4a18b42582620b70926a37f'});
+    
     this.loop();
   }
 
   
+  private async load( { serverUrl, token, streamId, objectId } ) {
+
+  const loader =  new ObjectLoader( { serverUrl, token, streamId, objectId } )
+
+  let total = null
+  let count = 0
+
+  for await ( let obj of loader.getObjectIterator() ) {
+
+    if( !total ) total = obj.totalChildrenCount
+
+    console.log( obj, `Progress: ${count++}/${total}` )
+
+  }
+
+}
+
   private async loadPointCloud(baseUrl: string, url: string, position: Vector3)
 	{
 			const loadPotree = this.potree.loadPointCloud(url, url => `${baseUrl}${url}`,).then((pointcloud: PointCloudOctree) => {

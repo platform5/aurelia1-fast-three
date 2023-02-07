@@ -10,6 +10,7 @@
   "dependencies": {
     "@microsoft/fast-components": "^2.30.6",
     "@microsoft/fast-element": "^1.11.0",
+    "@speckle/objectloader": "^2.12.0",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.4.0",
     "aurelia1-fast-adapter": "^1.1.0",
