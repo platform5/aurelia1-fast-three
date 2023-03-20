@@ -52,8 +52,12 @@ export class App {
     // })
     // let obj = await loader.getAndConstructObject((e) => console.log('Progress', e))
     // console.log('Speckle Obj', obj);
+    const speckleConnect = {serverUrl:'http://localhost:3000',
+    token: 'bb0be33809acaf87bb517a477007e46d153bccbb7a',
+    streamId:'2274fa6a58',
+    objectId:'85f633f5b4a18b42582620b70926a37f'};
 
-    let objs = await this.load({serverUrl:'http://localhost:3000',token: '6fb77ca894051374f7c5d95ec466e42363727436eb', streamId:'2274fa6a58',objectId:'85f633f5b4a18b42582620b70926a37f'});
+    let objs = await this.load(speckleConnect);
     
     this.loop();
   }
@@ -61,18 +65,18 @@ export class App {
   
   private async load( { serverUrl, token, streamId, objectId } ) {
 
-  const loader =  new ObjectLoader( { serverUrl, token, streamId, objectId } )
+  // const loader =  new ObjectLoader( { serverUrl, token, streamId, objectId } )
 
-  let total = null
-  let count = 0
+  // let total = null
+  // let count = 0
 
-  for await ( let obj of loader.getObjectIterator() ) {
+  // for await ( let obj of loader.getObjectIterator() ) {
 
-    if( !total ) total = obj.totalChildrenCount
+  //   if( !total ) total = obj.totalChildrenCount
 
-    console.log( obj, `Progress: ${count++}/${total}` )
+  //   console.log( obj, `Progress: ${count++}/${total}` )
 
-  }
+  // }
 
 }
 

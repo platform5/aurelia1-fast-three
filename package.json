@@ -15,7 +15,8 @@
     "aurelia-bootstrapper": "^2.4.0",
     "aurelia1-fast-adapter": "^1.1.0",
     "potree-core": "^2.0.3",
-    "three": "0.132.2"
+    "three": "0.132.2",
+    "three-mesh-bvh": "^0.5.23"
   },
   "devDependencies": {
     "@types/jest": "^29.2.4",
